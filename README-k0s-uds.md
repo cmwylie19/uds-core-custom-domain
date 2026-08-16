@@ -1,8 +1,8 @@
 # Host k0s UDS Deployment
 
-This setup uses host-level k0s, not k3d. The existing k3d cluster can remain in place, but the scripts use `kubeconfig.k0s` and do not deploy the k3d package from the upstream demo.
+This setup uses host-level k0s.
 
-## Network Choices
+## Network
 
 - Host interface: `wlo1`
 - Host address: `192.168.4.90/22`
@@ -46,10 +46,11 @@ KUBECONFIG=./kubeconfig.k0s kubectl get pods,pvc -n keycloak
 
 ## Local Hostname Resolution
 
-The browser needs local host entries for the MetalLB gateway IPs:
+The browser needs local host entries for the MetalLB gateway IPs (`/etc/hosts`):
 
 ```text
-192.168.7.241 sso.example.com
+# UDS host-k0s gateways
+192.168.7.241 sso.example.com element-web.example.com synapse.example.com mas.example.com mrtc.example.com element-admin.example.com
 192.168.7.240 keycloak.admin.example.com
 ```
 
@@ -84,4 +85,11 @@ systemctl status k0scontroller
 KUBECONFIG=./kubeconfig.k0s kubectl get nodes
 KUBECONFIG=./kubeconfig.k0s kubectl get pods -A
 curl -kI https://sso.example.com/realms/uds/.well-known/openid-configuration
+```
+
+## Create and Deploy Zarf
+
+```bash
+uds zarf package create --architecture=amd64 --flavor=upstream . --confirm
+uds zarf package deploy ./zarf-package-gov-matrix-amd64-dev-0.0.3-upstream.tar.zst --values deploy-time-values/delta-values.yaml --confirm
 ```
