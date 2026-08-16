@@ -1,0 +1,17 @@
+apiVersion: k0s.k0sproject.io/v1beta1
+kind: ClusterConfig
+metadata:
+  name: k0s
+spec:
+  api:
+    address: 192.168.4.90
+    sans:
+      - 127.0.0.1
+      - localhost
+      - 192.168.4.90
+  network:
+    provider: calico
+    podCIDR: 10.244.0.0/16
+    serviceCIDR: 10.96.0.0/12
+  storage:
+    type: etcd

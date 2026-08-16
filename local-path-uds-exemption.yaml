@@ -1,0 +1,19 @@
+apiVersion: uds.dev/v1alpha1
+kind: Exemption
+metadata:
+  name: local-path-provisioner-hostpath
+  namespace: uds-policy-exemptions
+spec:
+  exemptions:
+    - title: Allow local-path provisioner helper pods
+      description: Local-path provisioner creates short-lived helper pods with writable hostPath volumes to create backing directories for PersistentVolumes.
+      matcher:
+        namespace: local-path-storage
+        name: helper-pod-create-pvc-.*
+        kind: pod
+      policies:
+        - RequireNonRootUser
+        - DropAllCapabilities
+        - RestrictCapabilities
+        - RestrictVolumeTypes
+        - RestrictHostPathWrite

@@ -1,0 +1,19 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: host-lan-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - 192.168.7.240-192.168.7.250
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: host-lan-l2
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - host-lan-pool
+  interfaces:
+    - wlo1

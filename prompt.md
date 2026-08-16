@@ -1,0 +1,2 @@
+- Create a k0s cluster in this repo and deploy UDS based on [this bundle](https://github.com/defenseunicorns/uds-core/tree/main/bundles/k3d-standard)
+- create the k0s cluster with the custom CA in `generated-example-certs`, here are the [docs](https://docs.defenseunicorns.com/core/v1-7/how-to-guides/networking/manage-trust-bundles/)
